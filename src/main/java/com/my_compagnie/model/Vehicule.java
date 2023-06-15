@@ -21,7 +21,7 @@ public class Vehicule implements VehiculeDAO {
 
     @Override
     public void ajouterVehicule(Vehicule vehicule) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/vehicule?useSSL=false", "root","")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestion_vehicule?useSSL=false", "root","")) {
             String sql = "INSERT INTO vehicule (marque, modele, annee) VALUES (?,?,?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, vehicule.getMarque());

@@ -101,13 +101,18 @@ public class VehiculeGUI {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 Vehicule vehicule = new Vehicule();
                 if (marque.getText().isEmpty() || modele.getText().isEmpty() || annee.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Veuillez remplir tous les champs", "Erreur",
-                            JOptionPane.ERROR_MESSAGE);
+                retourMessage("Veuillez remplir tous les champs", "Erreur","erreur");
                 } else {
-                    vehicule.setMarque(marque.getText());
-                    vehicule.setModele(modele.getText());
-                    vehicule.setAnnee(Integer.parseInt(annee.getText()));
-                    vehicule.ajouterVehicule(vehicule);
+                    try {
+                        vehicule.setMarque(marque.getText());
+                        vehicule.setModele(modele.getText());
+                        vehicule.setAnnee(Integer.parseInt(annee.getText()));
+                        vehicule.ajouterVehicule(vehicule);
+                        retourMessage("Vehicule ajouté avec succès", "Succès","succes");
+                        resetInput();
+                    } catch (Exception ex) {
+                        retourMessage("Veuillez entrer un nombre pour l'année", "Erreur","erreur");
+                    }
                 }
             }
         });
@@ -125,5 +130,21 @@ public class VehiculeGUI {
                 }
             }
         });
+    }
+
+    private void resetInput() {
+        marque.setText("");
+        modele.setText("");
+        annee.setText("");
+        id.setText("");
+    }
+    private void retourMessage(String message, String titre, String type){
+        if(type == "erreur"){
+            JOptionPane.showMessageDialog(frame, message, titre, JOptionPane.ERROR_MESSAGE);
+        }else if(type == "succes"){
+            JOptionPane.showMessageDialog(frame, message, titre, JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(frame, message, titre, JOptionPane.WARNING_MESSAGE);
+        }
     }
 }
