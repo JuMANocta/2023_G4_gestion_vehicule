@@ -36,7 +36,7 @@ public class Vehicule implements VehiculeDAO {
     @Override
     public Vehicule chercherVehicule(int id) {
         Vehicule vehicule = null;
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/vehicule?useSSL=false", "root","")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestion_vehicule?useSSL=false", "root","")) {
             String sql = "SELECT * FROM vehicule WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
@@ -71,7 +71,7 @@ public class Vehicule implements VehiculeDAO {
 
     @Override
     public void supprimerVehicule(int id) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/vehicule?useSSL=false", "root","")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestion_vehicule?useSSL=false", "root","")) {
             String sql = "DELETE FROM vehicule WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);

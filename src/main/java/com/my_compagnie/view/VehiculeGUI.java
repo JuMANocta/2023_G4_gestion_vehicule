@@ -14,6 +14,7 @@ public class VehiculeGUI {
     private JTextField marque;
     private JTextField modele;
     private JTextField annee;
+    private JButton effacer;
     private JButton ajouter;
     private JButton chercher;
     private JButton modifier;
@@ -42,6 +43,16 @@ public class VehiculeGUI {
         constraints.gridx = 1;
         marque = new JTextField(20);
         panel.add(marque, constraints);
+        // ajout d'un bouton pour effacer les informations des jtextfield
+        constraints.gridx = 2;
+        effacer = new JButton("Effacer");
+        effacer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetInput();
+            }
+        });
+        panel.add(effacer, constraints);
         // ajout du label et de son jtextfield pour le modele
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -101,17 +112,17 @@ public class VehiculeGUI {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 Vehicule vehicule = new Vehicule();
                 if (marque.getText().isEmpty() || modele.getText().isEmpty() || annee.getText().isEmpty()) {
-                retourMessage("Veuillez remplir tous les champs", "Erreur","erreur");
+                    retourMessage("Veuillez remplir tous les champs", "Erreur", "erreur");
                 } else {
                     try {
                         vehicule.setMarque(marque.getText());
                         vehicule.setModele(modele.getText());
                         vehicule.setAnnee(Integer.parseInt(annee.getText()));
                         vehicule.ajouterVehicule(vehicule);
-                        retourMessage("Vehicule ajouté avec succès", "Succès","succes");
+                        retourMessage("Vehicule ajouté avec succès", "Succès", "succes");
                         resetInput();
                     } catch (Exception ex) {
-                        retourMessage("Veuillez entrer un nombre pour l'année", "Erreur","erreur");
+                        retourMessage("Veuillez entrer un nombre pour l'année", "Erreur", "erreur");
                     }
                 }
             }
@@ -138,12 +149,13 @@ public class VehiculeGUI {
         annee.setText("");
         id.setText("");
     }
-    private void retourMessage(String message, String titre, String type){
-        if(type == "erreur"){
+
+    private void retourMessage(String message, String titre, String type) {
+        if (type == "erreur") {
             JOptionPane.showMessageDialog(frame, message, titre, JOptionPane.ERROR_MESSAGE);
-        }else if(type == "succes"){
+        } else if (type == "succes") {
             JOptionPane.showMessageDialog(frame, message, titre, JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(frame, message, titre, JOptionPane.WARNING_MESSAGE);
         }
     }
