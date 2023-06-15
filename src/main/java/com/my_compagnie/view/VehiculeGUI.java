@@ -5,10 +5,12 @@ import javax.swing.*;
 import com.my_compagnie.model.Vehicule;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VehiculeGUI {
     private JFrame frame;
+    private JTextField id;
     private JTextField marque;
     private JTextField modele;
     private JTextField annee;
@@ -54,6 +56,13 @@ public class VehiculeGUI {
         constraints.gridx = 1;
         annee = new JTextField(20);
         panel.add(annee, constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        panel.add(new JLabel("Id"), constraints);
+        constraints.gridx = 1;
+        id = new JTextField(20);
+        panel.add(id, constraints);
+        constraints.gridx = 1;
 
         // ajout des boutons et de leurs emplacement
         JPanel boutonPanel = new JPanel(new GridLayout(1, 4, 10, 0));
@@ -65,14 +74,14 @@ public class VehiculeGUI {
 
         modifier = new JButton("Modifier");
         boutonPanel.add(modifier, constraints);
-        
+
         supprimer = new JButton("Supprimer");
         boutonPanel.add(supprimer, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 5;
         constraints.gridwidth = 4;
-        
+
         panel.add(boutonPanel, constraints);
 
         // ajout notre JLabel dans notre grille
@@ -91,10 +100,21 @@ public class VehiculeGUI {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 Vehicule vehicule = new Vehicule();
-                vehicule.setMarque(marque.getText());
-                vehicule.setModele(modele.getText());
-                vehicule.setAnnee(annee.getText());
-                vehicule.ajouterVehicule(vehicule);
+                if (marque.getText().isEmpty() || modele.getText().isEmpty() || annee.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Veuillez remplir tous les champs", "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    vehicule.setMarque(marque.getText());
+                    vehicule.setModele(modele.getText());
+                    vehicule.setAnnee(annee.getText());
+                    vehicule.ajouterVehicule(vehicule);
+                }
+            }
+        });
+        chercher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vehicule vehicule = new Vehicule();
             }
         });
     }
