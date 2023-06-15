@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -78,5 +79,11 @@ public class Vehicule implements VehiculeDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Vehicule> listerVehicule() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listerVehicule'");
     }
 }

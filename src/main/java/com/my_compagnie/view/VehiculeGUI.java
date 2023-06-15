@@ -115,6 +115,8 @@ public class VehiculeGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Vehicule vehicule = new Vehicule();
+                vehicule = vehicule.chercherVehicule(Integer.parseInt(id.getText()));
+
             }
         });
     }
