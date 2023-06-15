@@ -17,7 +17,7 @@ public class Vehicule implements VehiculeDAO {
     private int id;
     private String marque;
     private String modele;
-    private String annee;
+    private int annee;
 
     @Override
     public void ajouterVehicule(Vehicule vehicule) {
@@ -26,7 +26,7 @@ public class Vehicule implements VehiculeDAO {
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, vehicule.getMarque());
             statement.setString(2, vehicule.getModele());
-            statement.setString(3, vehicule.getAnnee());
+            statement.setInt(3, vehicule.getAnnee());
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -46,7 +46,7 @@ public class Vehicule implements VehiculeDAO {
                 vehicule.setId(result.getInt("id"));
                 vehicule.setMarque(result.getString("marque"));
                 vehicule.setModele(result.getString("modele"));
-                vehicule.setAnnee(result.getString("annee"));
+                vehicule.setAnnee(result.getInt("annee"));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -56,12 +56,12 @@ public class Vehicule implements VehiculeDAO {
 
     @Override
     public void modifierVehicule(Vehicule vehicule) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/vehicule?useSSL=false", "root","")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestion_vehicule?useSSL=false", "root","")) {
             String sql = "UPDATE vehicule SET marque = ?, modele = ?, annee = ? WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, vehicule.getMarque());
             statement.setString(2, vehicule.getModele());
-            statement.setString(3, vehicule.getAnnee());
+            statement.setInt(3, vehicule.getAnnee());
             statement.setInt(4, vehicule.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -106,7 +106,7 @@ public class VehiculeGUI {
                 } else {
                     vehicule.setMarque(marque.getText());
                     vehicule.setModele(modele.getText());
-                    vehicule.setAnnee(annee.getText());
+                    vehicule.setAnnee(Integer.parseInt(annee.getText()));
                     vehicule.ajouterVehicule(vehicule);
                 }
             }
@@ -116,7 +116,13 @@ public class VehiculeGUI {
             public void actionPerformed(ActionEvent e) {
                 Vehicule vehicule = new Vehicule();
                 vehicule = vehicule.chercherVehicule(Integer.parseInt(id.getText()));
-
+                if (vehicule != null) {
+                    marque.setText(vehicule.getMarque());
+                    modele.setText(vehicule.getModele());
+                    annee.setText(Integer.toString(vehicule.getAnnee()));
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Vehicule introuvable", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

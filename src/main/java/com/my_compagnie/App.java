@@ -1,6 +1,7 @@
 package com.my_compagnie;
 
 import javax.swing.SwingUtilities;
+
 import com.my_compagnie.view.VehiculeGUI;
 
 public class App 
