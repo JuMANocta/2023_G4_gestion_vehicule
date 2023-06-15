@@ -7,5 +7,5 @@ public interface VehiculeDAO {
     public Vehicule chercherVehicule(int id);
     public void modifierVehicule(Vehicule vehicule);
     public void supprimerVehicule(int id);
-    public List <Vehicule> listerVehicule();
+    public List <Vehicule> listerVehicule(String marque);
 }

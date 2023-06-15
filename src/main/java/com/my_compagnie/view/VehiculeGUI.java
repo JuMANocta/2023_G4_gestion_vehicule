@@ -1,12 +1,17 @@
 package com.my_compagnie.view;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import com.my_compagnie.model.Vehicule;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventObject;
 
 public class VehiculeGUI {
     private JFrame frame;
@@ -95,6 +100,46 @@ public class VehiculeGUI {
 
         panel.add(boutonPanel, constraints);
 
+        // ajout d'un tableau pour afficher les vehicules
+        String[] columnNames = { "Id", "Marque", "Modele", "Annee" };
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {}, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // TODO
+            }
+        };
+        JTable table = new JTable(tableModel);
+        JButton boutonModifier = new JButton("Modifier");
+        JButton boutonSupprimer = new JButton("Supprimer");
+
+        // Définir le rendu de l'éditeur pour les colonnes de boutons
+        TableCellRenderer tableCellRenderer = new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column) {
+                return (Component) value; // TODO
+            }
+        };
+        // TableCellEditor boutonEditeur = new AbstractCellEditor() {
+        //     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+        //             int column) {
+        //         return column == 4 ? boutonModifier : boutonSupprimer;
+        //     }
+
+        //     public Object getCellEditorValue() {
+        //         return null;
+        //     }
+        // };
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 4;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.fill = GridBagConstraints.BOTH;
+        panel.add(scrollPane, constraints);
+
         // ajout notre JLabel dans notre grille
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         // ajuster automatiquement la taille de la fenêtre
@@ -127,20 +172,21 @@ public class VehiculeGUI {
                 }
             }
         });
-        chercher.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Vehicule vehicule = new Vehicule();
-                vehicule = vehicule.chercherVehicule(Integer.parseInt(id.getText()));
-                if (vehicule != null) {
-                    marque.setText(vehicule.getMarque());
-                    modele.setText(vehicule.getModele());
-                    annee.setText(Integer.toString(vehicule.getAnnee()));
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Vehicule introuvable", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        // chercher.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         Vehicule vehicule = new Vehicule();
+        //         vehicule = vehicule.chercherVehicule(Integer.parseInt(id.getText()));
+        //         if (vehicule != null) {
+        //             marque.setText(vehicule.getMarque());
+        //             modele.setText(vehicule.getModele());
+        //             annee.setText(Integer.toString(vehicule.getAnnee()));
+        //         } else {
+        //             JOptionPane.showMessageDialog(frame, "Vehicule introuvable", "Erreur", JOptionPane.ERROR_MESSAGE);
+        //         }
+        //     }
+        // });
+        
     }
 
     private void resetInput() {

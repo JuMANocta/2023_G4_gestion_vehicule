@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -82,8 +83,24 @@ public class Vehicule implements VehiculeDAO {
     }
 
     @Override
-    public List<Vehicule> listerVehicule() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listerVehicule'");
+    public List<Vehicule> listerVehicule(String marque) {
+        List<Vehicule> vehicules = new ArrayList<>();
+        String sql = "SELECT * FROM vehicule WHERE marque = ?";
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestion_vehicule?useSSL=false", "root",""); PreparedStatement statement = conn.prepareStatement(sql);) {
+            statement.setString(1, marque);
+            try(ResultSet result = statement.executeQuery()){
+                while (result.next()) {
+                    Vehicule vehicule = new Vehicule();
+                    vehicule.setId(result.getInt("id"));
+                    vehicule.setMarque(result.getString("marque"));
+                    vehicule.setModele(result.getString("modele"));
+                    vehicule.setAnnee(result.getInt("annee"));
+                    vehicules.add(vehicule);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return vehicules;
     }
 }
