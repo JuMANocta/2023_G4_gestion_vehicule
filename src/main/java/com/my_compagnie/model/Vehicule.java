@@ -83,11 +83,11 @@ public class Vehicule implements VehiculeDAO {
     }
 
     @Override
-    public List<Vehicule> listerVehicule(String marque) {
+    public List<Vehicule> listerVehicule(int annee) {
         List<Vehicule> vehicules = new ArrayList<>();
-        String sql = "SELECT * FROM vehicule WHERE marque = ?";
+        String sql = "SELECT * FROM vehicule WHERE annee = ?";
         try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestion_vehicule?useSSL=false", "root",""); PreparedStatement statement = conn.prepareStatement(sql);) {
-            statement.setString(1, marque);
+            statement.setInt(1, annee);
             try(ResultSet result = statement.executeQuery()){
                 while (result.next()) {
                     Vehicule vehicule = new Vehicule();

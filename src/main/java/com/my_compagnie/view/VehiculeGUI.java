@@ -2,6 +2,7 @@ package com.my_compagnie.view;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -12,6 +13,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EventObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VehiculeGUI {
     private JFrame frame;
@@ -102,13 +105,13 @@ public class VehiculeGUI {
 
         // ajout d'un tableau pour afficher les vehicules
         String[] columnNames = { "Id", "Marque", "Modele", "Annee" };
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {}, columnNames) {
+        final DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {}, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // TODO
             }
         };
-        JTable table = new JTable(tableModel);
+        final JTable table = new JTable(tableModel);
         JButton boutonModifier = new JButton("Modifier");
         JButton boutonSupprimer = new JButton("Supprimer");
 
@@ -121,14 +124,15 @@ public class VehiculeGUI {
             }
         };
         // TableCellEditor boutonEditeur = new AbstractCellEditor() {
-        //     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-        //             int column) {
-        //         return column == 4 ? boutonModifier : boutonSupprimer;
-        //     }
+        // public Component getTableCellEditorComponent(JTable table, Object value,
+        // boolean isSelected, int row,
+        // int column) {
+        // return column == 4 ? boutonModifier : boutonSupprimer;
+        // }
 
-        //     public Object getCellEditorValue() {
-        //         return null;
-        //     }
+        // public Object getCellEditorValue() {
+        // return null;
+        // }
         // };
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -173,20 +177,44 @@ public class VehiculeGUI {
             }
         });
         // chercher.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         Vehicule vehicule = new Vehicule();
-        //         vehicule = vehicule.chercherVehicule(Integer.parseInt(id.getText()));
-        //         if (vehicule != null) {
-        //             marque.setText(vehicule.getMarque());
-        //             modele.setText(vehicule.getModele());
-        //             annee.setText(Integer.toString(vehicule.getAnnee()));
-        //         } else {
-        //             JOptionPane.showMessageDialog(frame, "Vehicule introuvable", "Erreur", JOptionPane.ERROR_MESSAGE);
-        //         }
-        //     }
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        // Vehicule vehicule = new Vehicule();
+        // vehicule = vehicule.chercherVehicule(Integer.parseInt(id.getText()));
+        // if (vehicule != null) {
+        // marque.setText(vehicule.getMarque());
+        // modele.setText(vehicule.getModele());
+        // annee.setText(Integer.toString(vehicule.getAnnee()));
+        // } else {
+        // JOptionPane.showMessageDialog(frame, "Vehicule introuvable", "Erreur",
+        // JOptionPane.ERROR_MESSAGE);
+        // }
+        // }
         // });
-        
+        chercher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tableModel.setRowCount(0);
+                Vehicule vehicule = new Vehicule();
+                List<Vehicule> vehicules = vehicule.listerVehicule(Integer.parseInt(annee.getText()));
+                // ajouter les vehicules dans le tableau
+                for (Vehicule v : vehicules) {
+                    tableModel.addRow(new Object[] { v.getId(), v.getMarque(), v.getModele(), v.getAnnee() });
+                }
+            }
+        });
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(javax.swing.event.ListSelectionEvent e) {
+                int row = table.getSelectedRow();
+                if (row > -1) {
+                    id.setText(table.getValueAt(row, 0).toString());
+                    marque.setText(table.getValueAt(row, 1).toString());
+                    modele.setText(table.getValueAt(row, 2).toString());
+                    annee.setText(table.getValueAt(row, 3).toString());
+                }
+            }
+        });
     }
 
     private void resetInput() {
